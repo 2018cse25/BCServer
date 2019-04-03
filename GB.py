@@ -7,7 +7,7 @@ import json
 from bigchaindb_driver.crypto import generate_keypair
 sendr, recvr = generate_keypair(), generate_keypair()
 print(sendr)
-# create a digital asset for Alice
+# create a digital asset for the admin or sender
 ddr_token = {
     'data': {
         'token_for': {
@@ -44,12 +44,12 @@ transfer_input = {'fulfillment': output['condition']['details'],
                                'transaction_id': transfer_asset['id']},
                   'owners_before': output['public_keys']}
 
-# prepare the transaction and use 3 tokens
+# prepare the transaction and use n number of tokens
 prepared_transfer_tx = bdb.transactions.prepare(
     operation='TRANSFER',
     asset=transfer_asset,
     inputs=transfer_input,
-    recipients=[([sendr.public_key], 3), ([recvr.public_key], 7)])
+    recipients=[([sendr.public_key], n), ([recvr.public_key], 7)])
 
 # fulfill and send the transaction
 fulfilled_transfer_tx = bdb.transactions.fulfill(
